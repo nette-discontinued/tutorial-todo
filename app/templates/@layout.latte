@@ -5,20 +5,42 @@
 	<meta name="description" content="">
 	<meta name="robots" content="{$robots}" n:ifset="$robots">
 
-	<title>{block title|striptags|upper}Nette Application Skeleton{/block}</title>
+	<title>{block title|stripTags|trim}{/block} | Úkolníček</title>
 
-	<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/screen.css">
-	<link rel="stylesheet" media="print" href="{$basePath}/css/print.css">
+	<link rel="stylesheet" href="{$basePath}/css/screen.css">
 	<link rel="shortcut icon" href="{$basePath}/favicon.ico">
 	{block head}{/block}
 </head>
 
 <body>
-	<script> document.body.className+=' js' </script>
+<div id="header">
+	<div id="header-inner">
+		<div class="title"><a href="{link Homepage:}">Úkolníček</a></div>
+	</div>
+</div>
 
-	<div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>
+<div id="container">
+	<div id="sidebar">
+		<h2><a n:href="Homepage:">Přehled</a></h2>
 
-	{include #content}
+		<div class="task-lists">
+			<h2>Seznamy</h2>
+			<ul>
+				<li n:foreach="$lists as $list"><a n:href="Task: $list->id">{$list->title}</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div id="content">
+		<div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>
+
+		{include #content}
+	</div>
+
+	<div id="footer">
+		<a href="http://doc.nette.org">Nette Framework Quick Start example</a>
+	</div>
+</div>
 
 	{block scripts}
 	<script src="{$basePath}/js/jquery.js"></script>

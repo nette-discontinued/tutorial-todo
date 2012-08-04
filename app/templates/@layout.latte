@@ -29,6 +29,18 @@
 				<li n:foreach="$lists as $list"><a n:href="Task: $list->id">{$list->title}</a></li>
 			</ul>
 		</div>
+
+		<fieldset>
+			<legend>Nový seznam</legend>
+			{form newListForm}
+				<div class="new-list-form">
+					{control $form errors}
+
+					{input title}
+					{input create}
+				</div>
+			{/form}
+		</fieldset>
 	</div>
 
 	<div id="content">

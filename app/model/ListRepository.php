@@ -18,4 +18,16 @@ class ListRepository extends Repository
 		return $list->related('task')->order('created');
 	}
 
+
+
+	/**
+	 * @return Nette\Database\Table\ActiveRow
+	 */
+	public function createList($title)
+	{
+		return $this->getTable()->insert(array(
+			'title' => $title,
+		));
+	}
+
 }

@@ -18,9 +18,10 @@ class HomepagePresenter extends BasePresenter
 
 
 
-	public function renderDefault()
+	/** @return Todo\TaskListControl */
+	public function createComponentIncompleteTasks()
 	{
-		$this->template->tasks = $this->taskRepository->findIncomplete();
+		return new Todo\TaskListControl($this->taskRepository->findIncomplete(), $this->taskRepository);
 	}
 
 }

@@ -1,0 +1,22 @@
+<table class="tasks">
+<thead>
+	<tr>
+		<th></th>
+		<th n:if="$displayList">Seznam</th>
+		<th>Úkol</th>
+		<th n:if="$displayUser">Přiřazeno</th>
+		<th></th>
+	</tr>
+</thead>
+<tbody>
+	{foreach $tasks as $task}
+	<tr n:class="$iterator->odd ? odd : even, $task->done ? done">
+		<td class="created">{$task->created|date:'j. n. Y'}</td>
+		<td class="list" n:if="$displayList">{$task->list->title}</td>
+		<td class="text">{$task->text}</td>
+		<td class="user" n:if="$displayUser">{$task->user->name}</td>
+		<td class="action"><a n:if="!$task->done" n:href="markDone! $task->id" class="icon tick">hotovo</a></td>
+	</tr>
+	{/foreach}
+</tbody>
+</table>

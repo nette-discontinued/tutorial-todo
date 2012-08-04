@@ -36,4 +36,14 @@ class TaskRepository extends Repository
 		));
 	}
 
+
+
+	/**
+	 * @param int $id
+	 */
+	public function markDone($id)
+	{
+		$this->findBy(array('id' => $id))->update(array('done' => 1));
+	}
+
 }

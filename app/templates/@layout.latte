@@ -52,7 +52,9 @@
 	</div>
 
 	<div id="content">
+		{snippet flashMessages}
 		<div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>
+		{/snippet}
 
 		{include #content}
 	</div>

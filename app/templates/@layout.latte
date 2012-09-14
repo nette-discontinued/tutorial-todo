@@ -16,11 +16,18 @@
 <div id="header">
 	<div id="header-inner">
 		<div class="title"><a href="{link Homepage:}">Úkolníček</a></div>
+
+		<div class="user" n:if="$user->isLoggedIn()">
+			<span class="icon user">{$user->getIdentity()->name}</span> |
+			<a n:href="User:password">Změna hesla</a> |
+			<a n:href="Sign:out">Odhlásit se</a>
+		</div>
 	</div>
 </div>
 
 <div id="container">
 	<div id="sidebar">
+		{if $user->isLoggedIn()}
 		<h2><a n:href="Homepage:">Přehled</a></h2>
 
 		<div class="task-lists">
@@ -41,6 +48,7 @@
 				</div>
 			{/form}
 		</fieldset>
+		{/if}
 	</div>
 
 	<div id="content">

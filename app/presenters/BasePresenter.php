@@ -36,6 +36,10 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 	 */
 	protected function createComponentNewListForm()
 	{
+		if (!$this->getUser()->isLoggedIn()) {
+			$this->redirect('Sign:in');
+		}
+
 		$form = new Form();
 		$form->addText('title', 'Název:', 15, 50)
 			->addRule(Form::FILLED, 'Musíte zadat název seznamu úkolů.');

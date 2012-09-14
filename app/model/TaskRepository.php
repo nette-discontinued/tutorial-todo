@@ -21,6 +21,18 @@ class TaskRepository extends Repository
 
 
 	/**
+	 * @return Nette\Database\Table\Selection
+	 */
+	public function findIncompleteByUser($userId)
+	{
+		return $this->findIncomplete()->where(array(
+			'user_id' => $userId
+		));
+	}
+
+
+
+	/**
 	 * @param int $listId
 	 * @param string $task
 	 * @param int $assignedUser

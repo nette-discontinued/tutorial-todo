@@ -1,32 +1,25 @@
 <?php
 
-use Nette\Security,
+namespace Todo;
+
+use Nette,
+	Nette\Security,
 	Nette\Utils\Strings;
 
-
-/*
-CREATE TABLE users (
-	id int(11) NOT NULL AUTO_INCREMENT,
-	username varchar(50) NOT NULL,
-	password char(60) NOT NULL,
-	role varchar(20) NOT NULL,
-	PRIMARY KEY (id)
-);
-*/
 
 /**
  * Users authenticator.
  */
 class Authenticator extends Nette\Object implements Security\IAuthenticator
 {
-	/** @var Nette\Database\Connection */
-	private $database;
+	/** @var UserRepository */
+	private $users;
 
 
 
-	public function __construct(Nette\Database\Connection $database)
+	public function __construct(UserRepository $users)
 	{
-		$this->database = $database;
+		$this->users = $users;
 	}
 
 
@@ -39,7 +32,7 @@ class Authenticator extends Nette\Object implements Security\IAuthenticator
 	public function authenticate(array $credentials)
 	{
 		list($username, $password) = $credentials;
-		$row = $this->database->table('users')->where('username', $username)->fetch();
+		$row = $this->users->findByName($username);
 
 		if (!$row) {
 			throw new Security\AuthenticationException('The username is incorrect.', self::IDENTITY_NOT_FOUND);
@@ -50,14 +43,27 @@ class Authenticator extends Nette\Object implements Security\IAuthenticator
 		}
 
 		unset($row->password);
-		return new Security\Identity($row->id, $row->role, $row->toArray());
+		return new Security\Identity($row->id, NULL, $row->toArray());
+	}
+
+
+
+	/**
+	 * @param  int $id
+	 * @param  string $password
+	 */
+	public function setPassword($id, $password)
+	{
+		$this->users->findBy(array('id' => $id))->update(array(
+			'password' => $this->calculateHash($password),
+		));
 	}
 
 
 
 	/**
 	 * Computes salted password hash.
-	 * @param  string
+	 * @param string
 	 * @return string
 	 */
 	public static function calculateHash($password, $salt = NULL)
